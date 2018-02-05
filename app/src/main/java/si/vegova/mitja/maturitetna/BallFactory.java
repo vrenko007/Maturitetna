@@ -5,10 +5,6 @@ import android.graphics.Paint;
 
 import java.util.Random;
 
-/**
- * Created by maticv on 3.02.2018.
- */
-
 public class BallFactory {
 
     float minX;
