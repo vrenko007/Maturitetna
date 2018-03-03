@@ -24,6 +24,7 @@ public class MenuView extends View implements View.OnTouchListener  {
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
 
+        // Ob dotiko nastavimo zaslon na igro
         GameView gameView = new GameView(_master);
         gameView.setBackgroundColor(Color.WHITE);
         _master.setContentView(gameView);

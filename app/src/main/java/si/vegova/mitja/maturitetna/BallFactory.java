@@ -5,6 +5,12 @@ import android.graphics.Paint;
 
 import java.util.Random;
 
+/*
+ * Class BallFactory
+ *
+ * Generator Krogcev na random pozicijah
+ */
+
 public class BallFactory {
 
     float minX;
@@ -16,6 +22,7 @@ public class BallFactory {
     Random rand;
     Paint paint;
 
+    // Konstrukrot generatorja, kateremu podamo meje sredin krogcev
     BallFactory(float minX, float maxX, float minY, float maxY){
         rand = new Random();
 
@@ -30,6 +37,7 @@ public class BallFactory {
     }
 
 
+    // Dobi nov krogec
     public Ball getNextBall(){
 
         Ball ball = new Ball();

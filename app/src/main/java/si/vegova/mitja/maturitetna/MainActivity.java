@@ -13,6 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
+        // nastavimo zacetni zaslon na meni
         View menuView = new MenuView(this);
         setContentView(menuView);
         menuView.setBackgroundColor(Color.BLACK);
