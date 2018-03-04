@@ -17,7 +17,6 @@ public class BallFactory {
     float maxX;
     float minY;
     float maxY;
-    int r = 130;
 
 
     Random rand;
@@ -32,28 +31,21 @@ public class BallFactory {
         this.minY = minY;
         this.maxY = maxY;
 
+        paint = new Paint();
+        paint.setColor(Color.BLUE);
+        paint.setStyle(Paint.Style.FILL);
     }
 
 
     // Dobi nov krogec
-        public Ball getNextBall(){
+    public Ball getNextBall(){
 
         Ball ball = new Ball();
 
         ball.x = (rand.nextFloat()*(maxX-minX))+minX;
         ball.y = (rand.nextFloat()*(maxY-minY))+minY;
-        if (r > 20) ball.r = r - 1;
-
-        paint = new Paint();
-        int barva = rand.nextInt((4-0)+1);
-        if (barva == 0) paint.setColor(Color.GREEN); //Barva kroga
-        else if (barva == 1) paint.setColor(Color.BLUE); //Barva kroga
-        else if (barva == 2) paint.setColor(Color.BLACK); //Barva kroga
-        else if (barva == 3) paint.setColor(Color.YELLOW); //Barva kroga
-        else if(barva == 4) paint.setColor(Color.RED); //Barva kroga
-        paint.setStyle(Paint.Style.FILL);
+        ball.r = 90;
         ball.paint = paint;
-
 
         return ball;
     }
