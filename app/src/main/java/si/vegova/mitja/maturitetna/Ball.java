@@ -13,6 +13,11 @@ class Ball {
     public float y;
     public float r;
 
+
+
+
+
+
     public int score = 1;
 
     public Paint paint;

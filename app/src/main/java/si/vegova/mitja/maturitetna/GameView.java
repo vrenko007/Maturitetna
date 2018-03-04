@@ -29,6 +29,11 @@ class GameView extends View implements View.OnTouchListener {
 
     // Tocke
     private int _score;
+    private float x1;
+    private float y1;
+    private float x = 0;
+    private float y = 0;
+
 
     // Cas za prikaz
     private int _time;
@@ -54,7 +59,7 @@ class GameView extends View implements View.OnTouchListener {
 
 
         // instanciramo generator krogcev z mejami in dobimo prvi krogec
-        ballFactory = new BallFactory(xMin+90,xMax-90,yMin+90,yMax-90);
+        ballFactory = new BallFactory(xMin+100,xMax-100,yMin+100,yMax-100);
         _ball = ballFactory.getNextBall();
     }
 
@@ -69,7 +74,7 @@ class GameView extends View implements View.OnTouchListener {
         _master = (MainActivity) context;
 
         // instanciramo Odstevalnik
-        _time = 60;
+        _time = 40;
         tmr = new Timer(true);
         tmr.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -80,6 +85,8 @@ class GameView extends View implements View.OnTouchListener {
 
         // nastavimo tocke na 0
         _score = 0;
+        x1 = 0;
+        y1 = 0;
 
 
     }
@@ -101,17 +108,20 @@ class GameView extends View implements View.OnTouchListener {
             _gameOver = true;
             tmr.cancel();
 
-            stringPaint.setTextSize(84);
-            canvas.drawText(String.format("Game Over", _score), xMax/4, yMax/2-40, stringPaint);
-            canvas.drawText(String.format("Score: %d", _score), xMax/4, yMax/2+50, stringPaint);
+            stringPaint.setTextSize(130);
+            canvas.drawText(String.format("Game Over", _score), xMax/4, yMax/2-30, stringPaint);
+            canvas.drawText(String.format("Score: %d", _score), xMax/4, yMax/2+60, stringPaint);
 
 
         }
         else{
             // Izpisemo podatke o igri (tocke in cas, ki nam je preostal)
-            stringPaint.setTextSize(42);
+
+
+            stringPaint.setTextSize(50);
             canvas.drawCircle(_ball.x, _ball.y, _ball.r, _ball.paint);
             canvas.drawText(String.format(Locale.ENGLISH, "Score: %d     Time: %d", _score, _time), 0, 50, stringPaint);
+            //canvas.drawText(String.format(Locale.ENGLISH, "State: %s",_state), 0, 80, stringPaint);
 
             invalidate(); // zaprosimo za nov izris
         }
@@ -125,22 +135,47 @@ class GameView extends View implements View.OnTouchListener {
         // preverjamo ce ze kalkuliramo dotik ali pa ce je konec igre
         if(!processingTouch && !_gameOver){
             processingTouch = true;
-            float x = event.getX();
-            float y = event.getY();
+            x1 = x;
+            y1 = y;
+            x = event.getX();
+            y = event.getY();
 
-            // ce je dotik v krogcu povecamo tocke
-            if(x > _ball.x-_ball.r &&
+
+
+
+
+
+            if(/*   x > _ball.x-_ball.r &&
                     x < _ball.x+_ball.r &&
                     y > _ball.y-_ball.r &&
-                    y < _ball.y+_ball.r){
+                    y < _ball.y+_ball.r*/
+                // ce je dotik v krogcu povecamo tocke
+                    (x -_ball.x)*(x -_ball.x) + (y - _ball.y)*(y - _ball.y) <= (_ball.r)*(_ball.r) //formula, ki računa krožnico kroga
+                    ){
 
-                _score += _ball.score;
+                _score += 1;// _ball.score;
                 // ker nimamo kompleksnih izracunov se lahko zgodi da se 1 dotik izvede 2x zato krogcu invalidiramo tocke
                 _ball.score = 0;
 
+
+
+
                 //dobimo naslednji krogec
                 _ball = ballFactory.getNextBall();
+        }
+
+         else if (/*(x -_ball.x)*(x -_ball.x) + (y - _ball.y)*(y - _ball.y) > (_ball.r)*(_ball.r) &&*/
+                            (_ball.r != 100) && (x - x1)*(x -x1) + (y - y1)*(y - y1) > 300
+                    ){
+
+
+
+                _score -= 1; //_ball.score;
+                // ker nimamo kompleksnih izracunov se lahko zgodi da se 1 dotik izvede 2x zato krogcu invalidiramo tocke
+                _ball.score = 0;
+
             }
+
             processingTouch = false;
         }
 
