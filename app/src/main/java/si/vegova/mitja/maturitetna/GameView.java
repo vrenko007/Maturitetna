@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,8 +45,8 @@ class GameView extends View implements View.OnTouchListener {
     private int yMin = 50;
     private int yMax;
 
-    private boolean processingTouch = false;
-    private boolean _gameOver;
+    private boolean _gameOver = false;
+    private Button _backButton;
 
 
     private MainActivity _master;
@@ -61,6 +62,8 @@ class GameView extends View implements View.OnTouchListener {
         // instanciramo generator krogcev z mejami in dobimo prvi krogec
         ballFactory = new BallFactory(xMin+100,xMax-100,yMin+100,yMax-100);
         _ball = ballFactory.getNextBall();
+
+        _backButton = new Button(0+50, h-500, w-50, "Back", ContextCompat.getColor(_master, R.color.buttonBackground), ContextCompat.getColor(_master, R.color.buttonForeground));
     }
 
     public GameView(Context context) {
@@ -85,10 +88,6 @@ class GameView extends View implements View.OnTouchListener {
 
         // nastavimo tocke na 0
         _score = 0;
-        x1 = 0;
-        y1 = 0;
-
-
     }
 
 
@@ -102,6 +101,7 @@ class GameView extends View implements View.OnTouchListener {
         Paint stringPaint = new Paint();
         stringPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         stringPaint.setColor(Color.BLACK);
+        stringPaint.setTextAlign(Paint.Align.CENTER);
 
         // Preverimo konec igre
         if(_time < 1){
@@ -109,8 +109,9 @@ class GameView extends View implements View.OnTouchListener {
             tmr.cancel();
 
             stringPaint.setTextSize(130);
-            canvas.drawText(String.format("Game Over", _score), xMax/4, yMax/2-30, stringPaint);
-            canvas.drawText(String.format("Score: %d", _score), xMax/4, yMax/2+60, stringPaint);
+            canvas.drawText(String.format("Game Over", _score), xMax/2, yMax/2-100, stringPaint);
+            canvas.drawText(String.format("Score: %d", _score), xMax/2, yMax/2, stringPaint);
+            _backButton.drawOn(canvas);
 
 
         }
@@ -119,8 +120,8 @@ class GameView extends View implements View.OnTouchListener {
 
 
             stringPaint.setTextSize(50);
-            canvas.drawCircle(_ball.x, _ball.y, _ball.r, _ball.paint);
-            canvas.drawText(String.format(Locale.ENGLISH, "Score: %d     Time: %d", _score, _time), 0, 50, stringPaint);
+            _ball.drawOn(canvas);
+            canvas.drawText(String.format(Locale.ENGLISH, "Score: %d     Time: %d", _score, _time), xMax/2, 50, stringPaint);
             //canvas.drawText(String.format(Locale.ENGLISH, "State: %s",_state), 0, 80, stringPaint);
 
             invalidate(); // zaprosimo za nov izris
@@ -132,57 +133,22 @@ class GameView extends View implements View.OnTouchListener {
     @Override
     public boolean onTouch(View view, MotionEvent event) {
 
+        float x = event.getX(), y = event.getY();
+        // Upostevamo samo dotik, ne pa tudi drzanja gumba
         // preverjamo ce ze kalkuliramo dotik ali pa ce je konec igre
-        if(!processingTouch && !_gameOver){
-            processingTouch = true;
-            x1 = x;
-            y1 = y;
-            x = event.getX();
-            y = event.getY();
-
-
-
-
-
-
-            if(/*   x > _ball.x-_ball.r &&
-                    x < _ball.x+_ball.r &&
-                    y > _ball.y-_ball.r &&
-                    y < _ball.y+_ball.r*/
-                // ce je dotik v krogcu povecamo tocke
-                    (x -_ball.x)*(x -_ball.x) + (y - _ball.y)*(y - _ball.y) <= (_ball.r)*(_ball.r) //formula, ki računa krožnico kroga
-                    ){
-
-                _score += 1;// _ball.score;
-                // ker nimamo kompleksnih izracunov se lahko zgodi da se 1 dotik izvede 2x zato krogcu invalidiramo tocke
-                _ball.score = 0;
-
-
-
-
-                //dobimo naslednji krogec
+        if(!_gameOver && event.getAction() == MotionEvent.ACTION_DOWN){
+            if(_ball.contains(x,y)){
+                _score += _ball.score;
                 _ball = ballFactory.getNextBall();
-        }
-
-         else if (/*(x -_ball.x)*(x -_ball.x) + (y - _ball.y)*(y - _ball.y) > (_ball.r)*(_ball.r) &&*/
-                            (_ball.r != 100) && (x - x1)*(x -x1) + (y - y1)*(y - y1) > 300
-                    ){
-
-
-
-                _score -= 1; //_ball.score;
-                // ker nimamo kompleksnih izracunov se lahko zgodi da se 1 dotik izvede 2x zato krogcu invalidiramo tocke
-                _ball.score = 0;
-
+            }else {
+                _score -= _ball.score;
             }
-
-            processingTouch = false;
         }
 
+        // Ob koncu upoštevamo samo sprostitev klika
         // Preverimo ce je dotik ob konec igre da gremo v Meni
-        if(_gameOver){
+        if(_gameOver && event.getAction() == MotionEvent.ACTION_UP && _backButton.contains(Math.round(x), Math.round(y))){
             MenuView menu = new MenuView(_master);
-            menu.setBackgroundColor(Color.BLACK);
             _master.setContentView(menu);
         }
         return true;

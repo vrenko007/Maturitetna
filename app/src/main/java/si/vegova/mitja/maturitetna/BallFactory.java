@@ -19,8 +19,6 @@ public class BallFactory {
     float maxY;
     int r = 130;
 
-    int barva;
-
 
     Random rand;
     Paint paint;
@@ -34,14 +32,6 @@ public class BallFactory {
         this.minY = minY;
         this.maxY = maxY;
 
-        paint = new Paint();
-        barva = rand.nextInt((4-0)+1)+0;
-        if (barva == 0) paint.setColor(Color.GREEN); //Barva kroga
-        else if (barva == 1) paint.setColor(Color.BLUE); //Barva kroga
-        else if (barva == 2) paint.setColor(Color.BLACK); //Barva kroga
-        else if (barva == 3) paint.setColor(Color.YELLOW); //Barva kroga
-        else if(barva == 4) paint.setColor(Color.RED); //Barva kroga
-        paint.setStyle(Paint.Style.FILL);
     }
 
 
@@ -54,13 +44,14 @@ public class BallFactory {
         ball.y = (rand.nextFloat()*(maxY-minY))+minY;
         if (r > 20) ball.r = r - 1;
 
-
-        barva = rand.nextInt((4-0)+1)+0;
+        paint = new Paint();
+        int barva = rand.nextInt((4-0)+1);
         if (barva == 0) paint.setColor(Color.GREEN); //Barva kroga
         else if (barva == 1) paint.setColor(Color.BLUE); //Barva kroga
         else if (barva == 2) paint.setColor(Color.BLACK); //Barva kroga
         else if (barva == 3) paint.setColor(Color.YELLOW); //Barva kroga
         else if(barva == 4) paint.setColor(Color.RED); //Barva kroga
+        paint.setStyle(Paint.Style.FILL);
         ball.paint = paint;
 
 

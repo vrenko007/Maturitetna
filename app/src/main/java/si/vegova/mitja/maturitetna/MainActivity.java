@@ -16,6 +16,5 @@ public class MainActivity extends AppCompatActivity {
         // nastavimo zacetni zaslon na meni
         View menuView = new MenuView(this);
         setContentView(menuView);
-        menuView.setBackgroundColor(Color.BLUE); //Barva začetnega menija
     }
 }
