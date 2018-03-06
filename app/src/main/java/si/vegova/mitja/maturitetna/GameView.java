@@ -60,7 +60,7 @@ class GameView extends View implements View.OnTouchListener {
 
 
         // instanciramo generator krogcev z mejami in dobimo prvi krogec
-        ballFactory = new BallFactory(xMin+100,xMax-100,yMin+100,yMax-100);
+        ballFactory = new BallFactory(xMin+ 130,xMax- 130,yMin+ 130,yMax- 130);
         _ball = ballFactory.getNextBall();
 
         _backButton = new Button(0+50, h-500, w-50, "Back", ContextCompat.getColor(_master, R.color.buttonBackground), ContextCompat.getColor(_master, R.color.buttonForeground));
@@ -77,7 +77,7 @@ class GameView extends View implements View.OnTouchListener {
         _master = (MainActivity) context;
 
         // instanciramo Odstevalnik
-        _time = 40;
+        _time = 30;
         tmr = new Timer(true);
         tmr.scheduleAtFixedRate(new TimerTask() {
             @Override

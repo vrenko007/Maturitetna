@@ -17,6 +17,8 @@ public class BallFactory {
     float maxX;
     float minY;
     float maxY;
+    int radij = 130;
+    int a = 0;
 
 
     Random rand;
@@ -44,7 +46,19 @@ public class BallFactory {
 
         ball.x = (rand.nextFloat()*(maxX-minX))+minX;
         ball.y = (rand.nextFloat()*(maxY-minY))+minY;
-        ball.r = 90;
+
+        if(a == 0)  {
+            ball.r = radij;
+            radij = radij - 2;
+            if (radij < 65) a = 1;
+        }
+        else if (a == 1){
+
+            ball.r = radij;
+            radij = radij + 2;
+            if (radij >= 130) a = 0;
+            }
+
         ball.paint = paint;
 
         return ball;
