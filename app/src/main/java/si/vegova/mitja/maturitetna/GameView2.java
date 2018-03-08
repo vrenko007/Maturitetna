@@ -17,7 +17,7 @@ import java.util.TimerTask;
  *
  * Osnovna igra, ki ima 60 sekund in steje koliko krogcev kliknes
  */
-class GameView extends View implements View.OnTouchListener {
+class GameView2 extends View implements View.OnTouchListener {
 
     // Odstevalnik
     private Timer tmr;
@@ -66,13 +66,14 @@ class GameView extends View implements View.OnTouchListener {
         // instanciramo generator krogcev z mejami in dobimo prvi krogec
         ballFactory = new BallFactory(xMin+ 130,xMax- 130,yMin+ 130,yMax- 130);
         _ball = ballFactory.getNextBall();
+        ballFactory._st_gm = 2;
 
         _backButton = new Button(50, h-500, w-50, "Back", ContextCompat.getColor(_master, R.color.buttonBackground), ContextCompat.getColor(_master, R.color.buttonForeground));
         _backButton1 = new Button(1000, h/2-1100, w, "x", ContextCompat.getColor(_master, R.color.buttonBackground), ContextCompat.getColor(_master, R.color.buttonForeground));
 
     }
 
-    public GameView(Context context) {
+    public GameView2(Context context) {
         super(context);
 
         // Definiramo poslušanje dotikov
@@ -89,7 +90,7 @@ class GameView extends View implements View.OnTouchListener {
             @Override
             public void run() {
                 _time --;
-            } 
+            }
         },0, 1000);
 
         // nastavimo tocke na 0

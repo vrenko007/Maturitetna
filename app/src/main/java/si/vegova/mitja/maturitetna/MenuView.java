@@ -69,9 +69,18 @@ public class MenuView extends View implements View.OnTouchListener  {
         if(_playButton.contains(Math.round(motionEvent.getX()), Math.round(motionEvent.getY()))){
 
             // Ob dotiko nastavimo zaslon na igro
-            GameView gameView = new GameView(_master);
+          /*  GameView gameView = new GameView(_master);
             gameView.setBackgroundColor(Color.WHITE);
-            _master.setContentView(gameView);
+            _master.setContentView(gameView);*/
+          GameMode gamemode = new GameMode(_master);
+          gamemode.setBackgroundColor(Color.WHITE);
+          _master.setContentView(gamemode);
+        }
+        else if (_settingsButton.contains(Math.round(motionEvent.getX()), Math.round(motionEvent.getY()))){
+            Settings settings = new Settings(_master);
+            settings.setBackgroundColor(Color.WHITE);
+            _master.setContentView(settings);
+
         }
         return true;
     }

@@ -19,13 +19,14 @@ public class BallFactory {
     float maxY;
     int radij = 130;
     int a = 0;
+    int _st_gm=0;
 
 
     Random rand;
     Paint paint;
 
     // Konstrukrot generatorja, kateremu podamo meje sredin krogcev
-    BallFactory(float minX, float maxX, float minY, float maxY){
+    BallFactory(float minX, float maxX, float minY, float maxY) {
         rand = new Random();
 
         this.minX = minX;
@@ -34,8 +35,7 @@ public class BallFactory {
         this.maxY = maxY;
 
         paint = new Paint();
-        paint.setColor(Color.BLUE);
-        paint.setStyle(Paint.Style.FILL);
+
     }
 
 
@@ -44,22 +44,29 @@ public class BallFactory {
 
         Ball ball = new Ball();
 
+    if(_st_gm == 0){
+        paint.setColor(Color.GREEN);
+        paint.setStyle(Paint.Style.FILL);
         ball.x = (rand.nextFloat()*(maxX-minX))+minX;
         ball.y = (rand.nextFloat()*(maxY-minY))+minY;
 
         if(a == 0)  {
             ball.r = radij;
-            radij = radij - 2;
+            radij = radij - 10;
             if (radij < 65) a = 1;
         }
-        else if (a == 1){
+        if (a == 1){
 
             ball.r = radij;
-            radij = radij + 2;
-            if (radij >= 130) a = 0;
+            radij = radij + 10;
+            if (radij >= 150) a = 0;
             }
 
-        ball.paint = paint;
+        ball.paint = paint;}
+
+
+
+
 
         return ball;
     }
