@@ -50,6 +50,7 @@ public class BallFactory {
         ball.x = (rand.nextFloat()*(maxX-minX))+minX;
         ball.y = (rand.nextFloat()*(maxY-minY))+minY;
 
+
         if(a == 0)  {
             ball.r = radij;
             radij = radij - 10;
