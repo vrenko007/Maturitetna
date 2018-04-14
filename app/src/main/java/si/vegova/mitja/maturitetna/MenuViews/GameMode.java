@@ -1,4 +1,4 @@
-package si.vegova.mitja.maturitetna;
+package si.vegova.mitja.maturitetna.MenuViews;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,6 +11,14 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+
+
+import si.vegova.mitja.maturitetna.GlobalSettings;
+import si.vegova.mitja.maturitetna.MainActivity;
+import si.vegova.mitja.maturitetna.R;
+import si.vegova.mitja.maturitetna.UIElements.*;
+
+import si.vegova.mitja.maturitetna.GameViews.*;
 
 public class GameMode extends View implements View.OnTouchListener  {
 
@@ -30,7 +38,8 @@ public class GameMode extends View implements View.OnTouchListener  {
     public GameMode (Context context) {
         super(context);
 
-        setBackgroundColor(Color.WHITE); //Barva začetnega menija
+
+        setBackgroundColor(GlobalSettings.colors[GlobalSettings.background_color]);; //Barva začetnega menija
 
         this.setFocusableInTouchMode(true);
         this.setClickable(true);
@@ -43,10 +52,10 @@ public class GameMode extends View implements View.OnTouchListener  {
     // Ko se premaknemo na zaslon
     @Override
     public void onSizeChanged(int w, int h, int oldW, int oldH) {
-        _GameMode = new Button(50, h/2-800, w-600 , "1", ContextCompat.getColor(_master, R.color.buttonBackground), ContextCompat.getColor(_master, R.color.buttonForeground));
-        _GameMode1 = new Button(600, h/2-800, w-50, "2",ContextCompat.getColor(_master, R.color.buttonBackground), ContextCompat.getColor(_master, R.color.buttonForeground));
-        _GameMode2 = new Button(50, h/2-300, w-600, "3",ContextCompat.getColor(_master, R.color.buttonBackground), ContextCompat.getColor(_master, R.color.buttonForeground));
-        _GameMode3 = new Button(600, h/2-300, w-50, "4",ContextCompat.getColor(_master, R.color.buttonBackground), ContextCompat.getColor(_master, R.color.buttonForeground));
+        _GameMode = new Button(50, h/2-800, w/2-50 , "1", ContextCompat.getColor(_master, R.color.buttonBackground), ContextCompat.getColor(_master, R.color.buttonForeground));
+        _GameMode1 = new Button(w/2, h/2-800, w-50, "2",ContextCompat.getColor(_master, R.color.buttonBackground), ContextCompat.getColor(_master, R.color.buttonForeground));
+        _GameMode2 = new Button(50, h/2-300, w/2-50, "3",ContextCompat.getColor(_master, R.color.buttonBackground), ContextCompat.getColor(_master, R.color.buttonForeground));
+        _GameMode3 = new Button(w/2+25, h/2-300, w-50, "4",ContextCompat.getColor(_master, R.color.buttonBackground), ContextCompat.getColor(_master, R.color.buttonForeground));
         _back_mode = new Button(50, h/2+300, w-400, "Back",ContextCompat.getColor(_master, R.color.buttonBackground), ContextCompat.getColor(_master, R.color.buttonForeground));
 
 
@@ -81,36 +90,38 @@ public class GameMode extends View implements View.OnTouchListener  {
             return true;
         }
 
+        BaseGameView gameView;
+
         if(_GameMode.contains(Math.round(motionEvent.getX()), Math.round(motionEvent.getY()))){
 
-            GameView gameView = new GameView(_master);
+            gameView = new GameView(_master);
 
-            gameView.setBackgroundColor(Color.WHITE);
+            gameView.setBackgroundColor(GlobalSettings.colors[GlobalSettings.background_color]);
             _master.setContentView(gameView);
 
         }
         else if (_GameMode1.contains(Math.round(motionEvent.getX()), Math.round(motionEvent.getY()))){
-            GameView1 gameView1 = new GameView1(_master);
+            gameView = new TimeGameView(_master);
 
-            gameView1.setBackgroundColor(Color.WHITE);
-            _master.setContentView(gameView1);
+            gameView.setBackgroundColor(GlobalSettings.colors[GlobalSettings.background_color]);;
+            _master.setContentView(gameView);
         }
         else if (_GameMode2.contains(Math.round(motionEvent.getX()), Math.round(motionEvent.getY()))){
-            GameView2 gameView2 = new GameView2(_master);
+            gameView = new MultipleGameView(_master);
 
-            gameView2.setBackgroundColor(Color.WHITE);
-            _master.setContentView(gameView2);
+            gameView.setBackgroundColor(GlobalSettings.colors[GlobalSettings.background_color]);;
+            _master.setContentView(gameView);
         }
         else if (_GameMode3.contains(Math.round(motionEvent.getX()), Math.round(motionEvent.getY()))){
-            GameView3 gameView3 = new GameView3(_master);
+            gameView = new MovingGameView(_master);
 
-            gameView3.setBackgroundColor(Color.WHITE);
-            _master.setContentView(gameView3);
+            gameView.setBackgroundColor(GlobalSettings.colors[GlobalSettings.background_color]);;
+            _master.setContentView(gameView);
         }
         else if (_back_mode.contains(Math.round(motionEvent.getX()), Math.round(motionEvent.getY()))){
             // Ob dotiko nastavimo zaslon na igro
             MenuView menuView = new MenuView(_master);
-            menuView.setBackgroundColor(Color.WHITE);
+            menuView.setBackgroundColor(GlobalSettings.colors[GlobalSettings.background_color]);;
             _master.setContentView(menuView);
 
         }

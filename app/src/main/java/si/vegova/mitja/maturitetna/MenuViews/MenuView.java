@@ -1,4 +1,4 @@
-package si.vegova.mitja.maturitetna;
+package si.vegova.mitja.maturitetna.MenuViews;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,6 +8,13 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+
+import si.vegova.mitja.maturitetna.GlobalSettings;
+import si.vegova.mitja.maturitetna.MainActivity;
+import si.vegova.mitja.maturitetna.R;
+import si.vegova.mitja.maturitetna.UIElements.Ball;
+import si.vegova.mitja.maturitetna.UIElements.BallFactory;
+import si.vegova.mitja.maturitetna.UIElements.Button;
 
 public class MenuView extends View implements View.OnTouchListener  {
 
@@ -23,8 +30,6 @@ public class MenuView extends View implements View.OnTouchListener  {
     public MenuView(Context context) {
         super(context);
 
-        setBackgroundColor(Color.WHITE); //Barva začetnega menija
-
         this.setFocusableInTouchMode(true);
         this.setClickable(true);
 
@@ -38,6 +43,8 @@ public class MenuView extends View implements View.OnTouchListener  {
     public void onSizeChanged(int w, int h, int oldW, int oldH) {
         _playButton = new Button(50, h/2-200, w-50, "Play", ContextCompat.getColor(_master, R.color.buttonBackground), ContextCompat.getColor(_master, R.color.buttonForeground));
         _settingsButton = new Button(50, h/2+250, w-50, "Settings",ContextCompat.getColor(_master, R.color.buttonBackground), ContextCompat.getColor(_master, R.color.buttonForeground));
+
+        setBackgroundColor(GlobalSettings.colors[GlobalSettings.background_color]);
 
         BallFactory factory = new BallFactory(0, w, 0, h);
         balls = new ArrayList<>();
@@ -68,17 +75,13 @@ public class MenuView extends View implements View.OnTouchListener  {
 
         if(_playButton.contains(Math.round(motionEvent.getX()), Math.round(motionEvent.getY()))){
 
-            // Ob dotiko nastavimo zaslon na igro
-          /*  GameView gameView = new GameView(_master);
-            gameView.setBackgroundColor(Color.WHITE);
-            _master.setContentView(gameView);*/
           GameMode gamemode = new GameMode(_master);
-          gamemode.setBackgroundColor(Color.WHITE);
+            setBackgroundColor(GlobalSettings.colors[GlobalSettings.background_color]);
           _master.setContentView(gamemode);
         }
         else if (_settingsButton.contains(Math.round(motionEvent.getX()), Math.round(motionEvent.getY()))){
-            Settings settings = new Settings(_master);
-            settings.setBackgroundColor(Color.WHITE);
+            si.vegova.mitja.maturitetna.MenuViews.Settings settings = new si.vegova.mitja.maturitetna.MenuViews.Settings(_master);
+            setBackgroundColor(GlobalSettings.colors[GlobalSettings.background_color]);
             _master.setContentView(settings);
 
         }

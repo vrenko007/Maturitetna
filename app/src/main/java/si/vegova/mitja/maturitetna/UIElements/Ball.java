@@ -1,29 +1,46 @@
-package si.vegova.mitja.maturitetna;
+package si.vegova.mitja.maturitetna.UIElements;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+
+import si.vegova.mitja.maturitetna.GlobalSettings;
 
 /*
  * Class Ball
  *
  * Krogci, ki predstavljajo pike, ki jih je treba kliknit v igri
  */
-class Ball {
+public class Ball {
 
     public float x;
     public float y;
     public float r;
 
-
-
-
-
+    public float vX;
+    public float vY;
 
     public int score = 1;
+
+    public float minX;
+    public float maxX;
+    public float minY;
+    public float maxY;
 
     public Paint paint;
 
     public void drawOn(Canvas canvas){
+
+        if(x+vX > maxX || x+vX < minX){
+            vX *= -1;
+        }
+
+        if(y+vY > maxY || y+vY < minY){
+            vY *= -1;
+        }
+
+        x += vX;
+        y += vY;
+        paint.setColor(GlobalSettings.colors[GlobalSettings.ball_color]);
         canvas.drawCircle( x, y, r, paint);
     }
 

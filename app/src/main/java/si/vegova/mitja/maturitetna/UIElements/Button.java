@@ -1,4 +1,4 @@
-package si.vegova.mitja.maturitetna;
+package si.vegova.mitja.maturitetna.UIElements;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,9 +11,13 @@ import android.support.v4.content.ContextCompat;
 
 public class Button {
 
-    Button(int left, int top, int right, String text, int buttonColor, int textColor){
+    public Button(int left, int top, int right, String text, int buttonColor, int textColor){
+        this(left, top, right, 400, text, buttonColor, textColor);
+    }
 
-        _rectangle = new Rect(left, top, right, top + 400);
+    public Button(int left, int top, int right, int height, String text, int buttonColor, int textColor){
+
+        _rectangle = new Rect(left, top, right, top + height);
         _text = text;
 
         _paintRect = new Paint();
@@ -30,6 +34,7 @@ public class Button {
         _paintString.setTypeface(Typeface.DEFAULT_BOLD);
         _paintString.setAlpha(8*255/10);
     }
+
 
     public void drawOn(Canvas canvas){
 

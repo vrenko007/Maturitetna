@@ -1,4 +1,4 @@
-package si.vegova.mitja.maturitetna;
+package si.vegova.mitja.maturitetna.MenuViews;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,6 +11,13 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+
+import si.vegova.mitja.maturitetna.GlobalSettings;
+import si.vegova.mitja.maturitetna.MainActivity;
+import si.vegova.mitja.maturitetna.R;
+import si.vegova.mitja.maturitetna.UIElements.Ball;
+import si.vegova.mitja.maturitetna.UIElements.BallFactory;
+import si.vegova.mitja.maturitetna.UIElements.Button;
 
 public class Settings extends View implements View.OnTouchListener  {
 
@@ -30,7 +37,7 @@ public class Settings extends View implements View.OnTouchListener  {
     public Settings (Context context) {
         super(context);
 
-        setBackgroundColor(Color.WHITE); //Barva začetnega menija
+        setBackgroundColor(GlobalSettings.colors[GlobalSettings.background_color]);
 
         this.setFocusableInTouchMode(true);
         this.setClickable(true);
@@ -60,6 +67,8 @@ public class Settings extends View implements View.OnTouchListener  {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        setBackgroundColor(GlobalSettings.colors[GlobalSettings.background_color]);
+
         for (Ball ball: balls) {
             ball.drawOn(canvas);
         }
@@ -78,24 +87,22 @@ public class Settings extends View implements View.OnTouchListener  {
         }
 
         if(_background_color.contains(Math.round(motionEvent.getX()), Math.round(motionEvent.getY()))){
-
-
+            GlobalSettings.background_color ++;
+            if(GlobalSettings.background_color >= GlobalSettings.colors.length){
+                GlobalSettings.background_color = 0;
+            }
+            invalidate();
         }
         else if (_circle_color.contains(Math.round(motionEvent.getX()), Math.round(motionEvent.getY()))){
-            Ball ball = new Ball();
-            Paint paint = new Paint();
-            if (color_circle >= 5) color_circle = 0;
-            else if (color_circle == 0)  paint.setColor(Color.BLUE);
-            else if (color_circle == 1)  paint.setColor(Color.RED);
-            else if (color_circle == 2)  paint.setColor(Color.GREEN);
-            else if (color_circle == 3)  paint.setColor(Color.YELLOW);
-            else if (color_circle == 4)  paint.setColor(Color.BLACK);
-
+            GlobalSettings.ball_color ++;
+            if(GlobalSettings.ball_color >= GlobalSettings.colors.length){
+                GlobalSettings.ball_color = 0;
+            }
+            invalidate();
         }
         else if (_back_button.contains(Math.round(motionEvent.getX()), Math.round(motionEvent.getY()))){
             // Ob dotiko nastavimo zaslon na igro
             MenuView menuView = new MenuView(_master);
-            menuView.setBackgroundColor(Color.WHITE);
             _master.setContentView(menuView);
 
         }

@@ -1,9 +1,11 @@
-package si.vegova.mitja.maturitetna;
+package si.vegova.mitja.maturitetna.UIElements;
 
 import android.graphics.Color;
 import android.graphics.Paint;
 
 import java.util.Random;
+
+import si.vegova.mitja.maturitetna.UIElements.Ball;
 
 /*
  * Class BallFactory
@@ -24,9 +26,10 @@ public class BallFactory {
 
     Random rand;
     Paint paint;
+    public boolean moving;
 
     // Konstrukrot generatorja, kateremu podamo meje sredin krogcev
-    BallFactory(float minX, float maxX, float minY, float maxY) {
+    public BallFactory(float minX, float maxX, float minY, float maxY) {
         rand = new Random();
 
         this.minX = minX;
@@ -49,6 +52,17 @@ public class BallFactory {
         paint.setStyle(Paint.Style.FILL);
         ball.x = (rand.nextFloat()*(maxX-minX))+minX;
         ball.y = (rand.nextFloat()*(maxY-minY))+minY;
+
+        ball.minX = minX;
+        ball.maxX = maxX;
+        ball.minY = minY;
+        ball.maxY = maxY;
+
+
+        if(moving){
+            ball.vX = rand.nextFloat()*50-25;
+            ball.vY = rand.nextFloat()*50-25;
+        }
 
 
         if(a == 0)  {
